@@ -13,28 +13,24 @@ public:
         sort(sub.begin(),sub.end());
         pair<int,vector<int>> ans = {1e9,{}};
         map<int,int> mp;
-        multiset<int> st;
         int n = sub.size();
+        int s = 0;
 
         for(int i = 0;i<n;i++){
             int num = sub[i].first;
-            int ind = sub[i].second;
+            int end = sub[i].second;
 
-            if(mp.find(ind) != mp.end()) st.erase(st.find(mp[ind]));
-            mp[ind] = num;
-            st.insert(num);
-
-            if(st.size() == k){
-                auto end = st.end();
-                auto start = st.begin();
-                end--;
-
-                int diff = *end - *start;
-
-                if(ans.first > diff){
-                    ans.first = diff;
-                    ans.second = {*start,*end};
+            mp[end]++;
+            while(mp.size() == k){
+                if(ans.first > num - sub[s].first){
+                    ans.first = num - sub[s].first;
+                    ans.second = {sub[s].first,num};
                 }
+
+                int start = sub[s].second;
+                mp[start]--;
+                if(mp[start] == 0) mp.erase(start);
+                s++;
             }
         }
         return ans.second;
