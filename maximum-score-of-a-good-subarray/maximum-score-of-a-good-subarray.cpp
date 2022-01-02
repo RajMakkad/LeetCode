@@ -9,12 +9,13 @@ public:
         
         while(start>0 || end + 1 < n){
             if(start > 0 and end + 1 < n){
-                if(nums[start - 1] > nums[end + 1]) cmin = min(cmin,nums[--start]);
-                else cmin = min(cmin,nums[++end]);
+                if(nums[start - 1] > nums[end + 1]) start--;
+                else end++;
             }
-            else if(start > 0) cmin = min(cmin,nums[--start]);
-            else cmin = min(cmin,nums[++end]);
+            else if(start > 0) start--;
+            else end++;
             
+            cmin = min({cmin,nums[start],nums[end]});
             ans = max(ans,cmin*(end - start + 1));
         }
         
