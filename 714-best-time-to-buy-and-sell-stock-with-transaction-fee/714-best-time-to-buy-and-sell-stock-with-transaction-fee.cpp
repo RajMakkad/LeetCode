@@ -4,14 +4,14 @@ public:
         int n = prices.size();
         int buying_state = -prices[0]; 
         int selling_profit = 0;
-        int profit_after_fee = 0;
+        int old_sp = selling_profit;
         
         for(int i = 1;i<n;i++){
-            selling_profit = max(selling_profit,prices[i] + buying_state);
-            buying_state = max(buying_state,profit_after_fee - prices[i]);
-            profit_after_fee = max(profit_after_fee,selling_profit - fee);
+            old_sp = selling_profit; 
+            selling_profit = max(selling_profit,prices[i] + buying_state - fee);
+            buying_state = max(buying_state,old_sp - prices[i]);
         }
         
-        return profit_after_fee;
+        return selling_profit;
     }
 };
