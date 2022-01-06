@@ -1,1 +1,1 @@
-​
+Second solution would be better when range of travel will be of bigger like (0 - 1e9).
