@@ -1,38 +1,15 @@
 class Solution {
 public:
-    int wiggleMaxLength(vector<int>& nums){
+    int wiggleMaxLength(vector<int>& nums) {
         int n = nums.size();
-        int ans = 0;
-        vector<int> v;
-        v.push_back(nums[0]);
+        int up = 1;
+        int down = 1;
 
-        for(int i = 1;i<n;i++){  // small start
-            if(v.size()%2){
-                if(nums[i] > v.back()) v.push_back(nums[i]);
-                else if(nums[i] < v.back()) v.back() = nums[i];
-            }
-            else{
-                if(nums[i] > v.back()) v.back() = nums[i]; 
-                else if(nums[i] < v.back()) v.push_back(nums[i]);
-            }
+        for(int i = 1;i<n;i++){
+            if(nums[i] > nums[i - 1]) up = down + 1;
+            else if(nums[i] < nums[i - 1]) down = up + 1;
         }
 
-        ans = max(ans,(int)v.size());
-        v.clear();
-        v.push_back(nums[0]);
-
-        for(int i = 1;i<n;i++){  // big start
-            if(v.size()%2){
-                if(nums[i] > v.back()) v.back() = nums[i];
-                else if(nums[i] < v.back()) v.push_back(nums[i]);
-            }
-            else{
-                if(nums[i] > v.back()) v.push_back(nums[i]);
-                else if(nums[i] < v.back()) v.back() = nums[i]; 
-            }
-        }
-
-        ans = max(ans,(int)v.size());
-        return ans;
+        return max(up,down);
     }
 };
