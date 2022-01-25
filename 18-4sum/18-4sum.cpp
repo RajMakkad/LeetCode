@@ -21,7 +21,9 @@ public:
                         st.insert(v);
                     }
                 }
+                while(j + 1< n and nums[j + 1] == nums[j]) j++;
             }
+            while(i + 1 < n and nums[i + 1] == nums[i]) i++;
         }
 
         vector<vector<int>> ans = {st.begin(),st.end()};
