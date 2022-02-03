@@ -2,7 +2,8 @@ class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target){
         int n = nums.size();
-        set<vector<int>> st;
+        //set<vector<int>> st;
+        vector<vector<int>> ans;
         sort(nums.begin(),nums.end());
 
         for(int i = 0;i<n;i++){
@@ -18,7 +19,7 @@ public:
                     {
                         vector<int> v = {nums[i],nums[j],nums[s++],nums[e]};
                         while(s < n and nums[s] == nums[s - 1]) s++;
-                        st.insert(v);
+                        ans.push_back(v);
                     }
                 }
                 while(j + 1< n and nums[j + 1] == nums[j]) j++;
@@ -26,7 +27,7 @@ public:
             while(i + 1 < n and nums[i + 1] == nums[i]) i++;
         }
 
-        vector<vector<int>> ans = {st.begin(),st.end()};
+        // vector<vector<int>> ans = {st.begin(),st.end()};
 
         return ans;
     }
