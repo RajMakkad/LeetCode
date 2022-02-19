@@ -11,7 +11,7 @@ public:
             s.insert({x,i});
         }
 
-        int cnt = n*(log2(n) + 1) + 2*n;
+        int cnt = n*(log2(1e9) + 1);
         int ans = 1e9;
 
         while(cnt--){
