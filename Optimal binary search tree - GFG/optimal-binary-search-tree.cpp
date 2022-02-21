@@ -5,36 +5,39 @@
 using namespace std;
 
  // } Driver Code Ends
-
+//User function Template for C++
 
 class Solution{
     public:
-    int dp[101][101];
-   int sum(int i,int j,int frq[]){
-       int s=0;
-       for(int k=i;k<=j;k++){
-           s+=frq[k];
-       }
-       return s;
-   }
-   int mcm(int i,int j,int freq[]){
-      
-       if(j<i) return 0;
-       if(i==j) return freq[i];
-       if(dp[i][j]!=-1) return dp[i][j];
-       int sum1=sum(i,j,freq);
-       int ans=INT_MAX;
-       for(int k=i;k<=j;k++){
-           ans=min(ans,mcm(i,k-1,freq)+mcm(k+1,j,freq));
-       }
-       return dp[i][j]=ans+sum1;
-   }
-   int optimalSearchTree(int keys[], int freq[], int n)
-   {
-     
-      memset(dp,-1,sizeof dp);
-      return mcm(0,n-1,freq);
-   }
+    int optimalSearchTree(int keys[], int freq[], int n){
+        vector<vector<int>> dp(n,vector<int>(n,0));
+    
+        for(int g = 0;g<n;g++){
+            for(int s = 0;s + g < n;s++){
+                int e = s + g;
+                if(g == 0) dp[s][e] = freq[s];
+                else if(g == 1) dp[s][e] = min(freq[s] + freq[e]*2,freq[s]*2 + freq[e]);
+                else{
+                    int sum = 0;
+                    dp[s][e] = 1e9;
+                    for(int i = s;i<=e;i++) sum += freq[i];
+                    for(int i = s;i<=e;i++){
+                        int l = 0;
+                        int r = 0;
+    
+                        if(i != 0) l = dp[s][i - 1];
+                        if(i != n - 1) r = dp[i + 1][e];
+                        dp[s][e] = min(dp[s][e],l + r);
+                    }
+    
+                    dp[s][e] += sum;
+                }
+            }
+        }
+    
+        return dp[0][n - 1];
+    
+    }
 };
 
 // { Driver Code Starts.
