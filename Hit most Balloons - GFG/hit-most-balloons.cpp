@@ -14,7 +14,7 @@ class Solution {
         for(int i = 0;i<n;i++){
             map<pair<int,int>,int> mp;
             int overlap = 0;
-            for(int j = i;j<n;j++){
+            for(int j = 0;j<n;j++){
                 int y = a[j].second - a[i].second;
                 int x = a[j].first - a[i].first;
 
