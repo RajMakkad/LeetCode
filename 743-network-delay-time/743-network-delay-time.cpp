@@ -3,7 +3,7 @@ class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k){
         vector<int> need(n + 1,1e9);
-        vector<pair<int,int>> g[n + 1]; // 
+        vector<pair<int,int>> g[n + 1];
 
         for(auto &i:times) g[i[0]].push_back({i[1],i[2]});
         priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> q;
