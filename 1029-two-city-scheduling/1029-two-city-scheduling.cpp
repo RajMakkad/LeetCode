@@ -1,26 +1,18 @@
 class Solution{
-    int memoization(int n,int m,vector<vector<int>> &dp,vector<vector<int>> &costs){
-        if(n == 0 and m == 0) return 0;
-        if(dp[n][m] != -1) return dp[n][m];
-        
-        int a = 1e9;
-        int b = 1e9;
-
-        if(n > 0 and m > 0){
-            a = memoization(n - 1,m,dp,costs) + costs[n + m - 1][0];
-            b = memoization(n,m - 1,dp,costs) + costs[n + m - 1][1];
-        }
-        else if(n > 0) a = memoization(n - 1,m,dp,costs) + costs[n + m - 1][0];
-        else if(m > 0) b = memoization(n,m - 1,dp,costs) + costs[n + m - 1][1];
-        
-        return dp[n][m] = min(a,b);
+    static bool comp(const vector<int> &a,vector<int> &b){
+        return (a[0] - a[1]) < (b[0] - b[1]);
     }
 public:
     int twoCitySchedCost(vector<vector<int>>& costs) {
-        int n = costs.size()/2;
-        int m = n;
+        int n = costs.size();
+        sort(costs.begin(),costs.end(),comp);
 
-        vector<vector<int>> dp(n + 1,vector<int>(n + 1,-1));
-        return memoization(n,m,dp,costs);
+        int ans = 0;
+        for(int i = 0;i<n;i++){
+            if(i < n/2) ans += costs[i][0];
+            else ans += costs[i][1];
+        }
+
+        return ans;
     }
 };
