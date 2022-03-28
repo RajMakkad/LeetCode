@@ -1,31 +1,48 @@
 class Solution{
-    int parent(int x,vector<int> &p){
-        if(x == p[x]) return x;
-        return p[x] = parent(p[x],p);
+    int parent[201], size[201];
+    void initialize(int n){
+        for(int i = 1;i<=n;i++){
+            parent[i] = i;
+            size[i] = 1;
+        }
     }
-    void connect(int x,int y,vector<int> &p){
-        int p_x = parent(x,p);
-        int p_y = parent(y,p);
 
-        if(p_x != p_y) p[p_y] = p_x;
+    int findParent(int x){
+        if(x == parent[x]) return x;
+        return parent[x] = findParent(parent[x]);
+    }
+
+    void connect(int u,int v){
+        u = findParent(u);
+        v = findParent(v);
+
+        if(u != v){
+            if(size[u] > size[v]){
+                parent[v] = u;
+                size[u] += size[v];
+            }
+            else{
+                parent[u] = v;
+                size[v] += size[u];
+            }
+        }
     }
 public:
     int findCircleNum(vector<vector<int>>& isConnected){
         int n = isConnected.size();
-        vector<int> p(n + 1);
+        initialize(n);
 
-        for(int i = 1;i<=n;i++) p[i] = i;
-        for(int i = 0;i<n;i++){
-            for(int j = 0;j<n;j++){
-                if(isConnected[i][j]){
-                    connect(i + 1,j + 1,p);
+        for(int r = 0;r<n;r++){
+            for(int c = r + 1;c<n;c++){
+                if(isConnected[r][c] == 1){
+                    connect(r + 1,c + 1);
                 }
             }
         }
 
         int ans = 0;
         for(int i = 1;i<=n;i++){
-            if(p[i] == i) ans++;
+            if(parent[i] == i) ans++;
         }
 
         return ans;
