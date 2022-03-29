@@ -5,50 +5,56 @@ using namespace std;
  // } Driver Code Ends
 //User function template for C++
 
-class Solution{
-    void Tarjan(int node,int parent,vector<int> g[],vector<int> &disc,vector<int> &low,vector<int> &inStack,stack<int> &s,vector<vector<int>> &ans){
-        static int time = 0;
-        disc[node] = low[node] = time++;
-        inStack[node] = 1;
-        s.push(node);
+class Solution
+{
+	public:
 
-        for(auto &i:g[node]){
-            if(disc[i] == -1){
-                Tarjan(i,node,g,disc,low,inStack,s,ans);
-                low[node] = min(low[node],low[i]);
+    void getcomponents(int node,vector<int> adj[],vector<int> &dis,vector<int> &low,vector<int> &instack,stack<int> &st,vector<vector<int>> &ans){
+        static int time = 0;
+        dis[node] = low[node] = time++;
+        st.push(node);
+        instack[node] = 1;
+
+        for(auto v: adj[node]){
+            if(dis[v] == -1){
+                getcomponents(v,adj,dis,low,instack,st,ans);
+                low[node] = min(low[node],low[v]);
             }
-            else if(inStack[i] == 1) low[node] = min(low[node],disc[i]);
+            else if(instack[v] == 1){
+                low[node] = min(low[node],low[v]);
+            }
         }
 
-        if(disc[node] == low[node]){
+        if(low[node] == dis[node]){
             vector<int> sub;
-            while(s.top() != node){
-                sub.push_back(s.top());
-                inStack[s.top()] = 0;
-                s.pop();
+            while(!st.empty()){
+                int u = st.top();
+                st.pop();
+                instack[u] = 0;
+                sub.push_back(u);
+                if(u == node) break;
             }
-
-            sub.push_back(s.top());
-            inStack[s.top()] = 0;
-            s.pop();
             
             sort(sub.begin(),sub.end());
+
             ans.push_back(sub);
         }
     }
-	public:
-    vector<vector<int>> tarjans(int n, vector<int> g[]){
-        vector<int> disc(n,-1), low(n,-1), inStack(n,0);
-        stack<int> s;
+    
+    vector<vector<int>> tarjans(int V, vector<int> adj[])
+    {
+        vector<int> dis(V,-1),low(V,-1),instack(V,0);
         vector<vector<int>> ans;
+        stack<int> st;
 
-        for(int i = 0;i<n;i++){
-            if(disc[i] == -1){
-                Tarjan(i,-1,g,disc,low,inStack,s,ans);
+        for(int i = 0;i<V;i++){
+            if(dis[i] == -1){
+                getcomponents(i,adj,dis,low,instack,st,ans);
             }
         }
         
         sort(ans.begin(),ans.end());
+
         return ans;
     }
 };
