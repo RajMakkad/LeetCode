@@ -1,37 +1,34 @@
-class Solution{
-    vector<int> vis, disc, low;
-    void runwild(int node,int parent,vector<int> g[],vector<vector<int>>& connections,vector<vector<int>>& ans){
-        vis[node] = 1;
+class Solution {
+public:
+    void getcps(int node,int parent,vector<int> adj[],vector<int> &dis,vector<int> &low,vector<vector<int>> &ans){
         static int time = 0;
-        disc[node] = low[node] = time++;
+        dis[node] = low[node] = time++;
 
-        for(auto &i:g[node]){
+        for(auto i: adj[node]){
             if(i == parent) continue;
-            if(vis[i] == 0){
-                runwild(i,node,g,connections,ans);
+            if(dis[i] == -1){
+                getcps(i,node,adj,dis,low,ans);
                 low[node] = min(low[node],low[i]);
+                if(low[i] > dis[node]) ans.push_back({i,node});
             }
-            else low[node] = min(low[node],disc[i]);
-
-            if(low[i] > disc[node]){
-                ans.push_back({node,i});
+            else{
+                low[node] = min(low[node],low[i]);
             }
         }
     }
-public:
-    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
-        vector<int> g[n];
-        vis.resize(n);
-        disc.resize(n);
-        low.resize(n);
-        vector<vector<int>> ans;
 
-        for(auto &i:connections){
-            g[i[0]].push_back(i[1]);
-            g[i[1]].push_back(i[0]);
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+        vector<int> adj[n];
+        vector<int> dis(n,-1),low(n,-1);
+
+        for(auto i:connections){
+            adj[i[0]].push_back(i[1]);
+            adj[i[1]].push_back(i[0]);
         }
 
-        runwild(0,-1,g,connections,ans);
+        vector<vector<int>> ans;
+        getcps(0,-1,adj,dis,low,ans);
+
         return ans;
     }
 };
