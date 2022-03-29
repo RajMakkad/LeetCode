@@ -31,9 +31,7 @@ class Solution {
     vector<int> articulationPoints(int n, vector<int> g[]){
         vector<int> disc(n,-1), low(n,-1), isArticulation(n,0);
 
-        for(int i = 0;i<n;i++){
-            if(disc[i] == -1) disconnect(i,-1,g,disc,low,isArticulation);
-        }
+        disconnect(0,-1,g,disc,low,isArticulation);
 
         vector<int> ans;
         for(int i = 0;i<n;i++){
