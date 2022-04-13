@@ -16,7 +16,7 @@ public:
         int n = fib.size();
 
         for(int i = n - 1;i>=0;i--){
-            while(k >= fib[i]){
+            if(k >= fib[i]){
                 ans++;
                 k = k - fib[i];
             }
