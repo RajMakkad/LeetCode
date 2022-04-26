@@ -1,40 +1,32 @@
-#define pi pair<int,int>
 class Solution {
 public:
-    int minCostConnectPoints(vector<vector<int>>& p){
+    int minCostConnectPoints(vector<vector<int>>& p) {
         int n = p.size();
-        vector<pi> g[n]; // (node,edge)
+        vector<int> dist(n,1e9), inMst(n,0);
 
-        for(int i = 0;i<n;i++){
-            for(int j = i + 1;j<n;j++){
-                int e = abs(p[i][0] - p[j][0]) + abs(p[i][1] - p[j][1]);
-                g[i].push_back({j,e});
-                g[j].push_back({i,e});
-            }
-        }
-
-        vector<int> key(n,1e9), inMst(n,0);
-        key[0] = 0;
-
-        priority_queue<pi,vector<pi>,greater<pi>> q; // (key,node)
+        priority_queue<vector<int>,vector<vector<int>>,greater<vector<int>>> q;
+        dist[0] = 0;
         q.push({0,0});
 
+        int ans = 0;
+
         while(!q.empty()){
-            int node = q.top().second;
-            inMst[node] = 1;
-
+            auto node = q.top();
             q.pop();
+            
+            if(inMst[node[1]]) continue;
+            ans += node[0];
+            inMst[node[1]] = 1;
 
-            for(auto &i:g[node]){
-                if(inMst[i.first] == 0 and key[i.first] > i.second){
-                    key[i.first] = i.second;
-                    q.push({key[i.first],i.first});
+            for(int i = 0;i<n;i++){
+                int d = abs(p[i][0] - p[node[1]][0]) + abs(p[i][1] - p[node[1]][1]);
+                if(dist[i] > d and inMst[i] == 0){
+                    dist[i] = d;
+                    q.push({dist[i],i});
                 }
             }
         }
 
-        int ans = 0;
-        for(int i = 0;i<n;i++) ans += key[i];
         return ans;
     }
 };
