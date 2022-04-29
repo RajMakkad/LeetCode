@@ -11,13 +11,10 @@ public:
 
         int ans = 0;
         for(int i = 0;i<n;i++){
-            auto u1 = lower_bound(p.begin() + i + 1,p.end(),2*p[i]) - p.begin();
-            if(u1 == n) break;
+            auto u1 = lower_bound(p.begin() + i + 1,p.end() - 1,2*p[i]) - p.begin();
 
-            int x = (p[n - 1] + p[i])/2;
-            auto u2 = upper_bound(p.begin(),p.end(),x) - p.begin();
-            u2--;
-            if(u2 == n - 1) u2--;
+            auto u2 = upper_bound(p.begin(),p.end() - 1,(p[n - 1] + p[i])/2) - p.begin() - 1;
+            
             if(u2 >= u1) ans = (ans + (u2 - u1 + 1)%mod)%mod;
         }
 
