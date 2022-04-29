@@ -17,7 +17,7 @@ public:
         vector<int> colour(graph.size(),-1);
         
         for(int i = 0;i<graph.size();i++){
-            if(colour[i]==-1){
+            if(colour[i] == -1){
                 if(!dfsBipartite(i,1,graph,colour)) return false;
             }
         }
