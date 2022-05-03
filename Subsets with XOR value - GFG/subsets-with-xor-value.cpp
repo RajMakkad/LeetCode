@@ -19,7 +19,7 @@ class Solution{
     }
 public:
     int subsetXOR(vector<int> a, int n, int k) {
-        vector<vector<int>> dp(n + 1,vector<int>(1000,-1));
+        vector<vector<int>> dp(n + 1,vector<int>(128,-1));
         return memoization(n,k,a,dp);
     }
 };
