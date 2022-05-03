@@ -5,43 +5,22 @@ using namespace std;
 
  // } Driver Code Ends
 
-// class Solution{
-// public:
-//     int subsetXOR(vector<int> a, int n, int k) {
-//         vector<vector<int>> dp(n + 1,vector<int>(128,0));
-
-//         dp[0][0] = 1;
-//         for(int i = 0;i<n;i++){
-//             for(int j = 0;j<=k;j++){
-//                 dp[i + 1][j] += dp[i][j];
-//                 dp[i + 1][(a[i] ^ j)] += dp[i][j];
-//             }
-//         }
-
-//         return dp[n][k];
-//     }
-// };
 class Solution{
-public:
-    int helper(vector<int>arr,vector<vector<int>>&dp,int K,int i)
-    {
-        if(i==arr.size())
-            return K==0;
-        if(dp[i][K]!=-1)
-            return dp[i][K];
-        
-        else
-        {
-            int op1=helper(arr,dp,K,i+1);
-            int op2=helper(arr,dp,K^arr[i],i+1);
-            return dp[i][K]=op1+op2;
+    int memoization(int n,int k,vector<int> &a,vector<vector<int>> &dp){
+        if(n == 0){
+            return k == 0;
         }
+        if(dp[n][k] != -1) return dp[n][k];
+
+        dp[n][k] = memoization(n - 1,(k ^ a[n - 1]),a,dp);
+        dp[n][k] += memoization(n - 1,k,a,dp);
+
+        return dp[n][k];
     }
-    int subsetXOR(vector<int> arr, int N, int K) {
-        // code here
-        vector<vector<int>>dp(N,vector<int>(1000,-1));
-        
-        return helper(arr,dp,K,0);
+public:
+    int subsetXOR(vector<int> a, int n, int k) {
+        vector<vector<int>> dp(n + 1,vector<int>(1000,-1));
+        return memoization(n,k,a,dp);
     }
 };
 
