@@ -7,7 +7,7 @@ public:
         int selling_date = 0;
 
         for(int i = 1;i<n;i++){
-            if(prices[i]>=prices[selling_date]) selling_date++;
+            if(prices[i]>=prices[selling_date]) selling_date = i;
             else{
                 max_profit += prices[selling_date] - prices[buying_date];
                 buying_date = selling_date = i;
