@@ -27,7 +27,7 @@ public:
        for (int i = 0; i < N; i++) {
            if (adj[i].empty()) {
                if(terminal == -1) terminal = i;
-               else if(terminal != i) exists = false;
+               else exists = false;
            }
            if (!d[i]) Q.push(i);
        }
