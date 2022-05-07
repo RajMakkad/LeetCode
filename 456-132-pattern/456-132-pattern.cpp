@@ -2,17 +2,17 @@ class Solution {
 public:
     bool find132pattern(vector<int>& nums) {
         int n = nums.size();
-        multiset<int> s1,s2;
+        int end = INT_MIN;
+        stack<int> s;
 
-        s1.insert(nums[0]);
-        for(int i = 1;i<n;i++) s2.insert(nums[i]);
+        for(int i = n - 1;i>=0;i--){
+            if(end > nums[i]) return true;
+            while(!s.empty() and nums[i] > s.top()){
+                end = s.top();
+                s.pop();
+            }
 
-        for(int i = 1;i<n - 1;i++){
-            auto b = s1.begin();
-            s2.erase(s2.find(nums[i]));
-            auto u = s2.upper_bound(*b);
-            if(u != s2.end() and nums[i] > *u) return true;
-            s1.insert(nums[i]);
+            s.push(nums[i]);
         }
 
         return false;
