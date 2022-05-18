@@ -1,34 +1,30 @@
 class Solution {
-public:
-    void getcps(int node,int parent,vector<int> adj[],vector<int> &dis,vector<int> &low,vector<vector<int>> &ans){
+    vector<vector<int>> ans;
+    void dfs(int node,int parent,vector<int> &disc,vector<int> &low,vector<int> g[]){
         static int time = 0;
-        dis[node] = low[node] = time++;
+        disc[node] = low[node] = time++;
 
-        for(auto i: adj[node]){
+        for(auto i:g[node]){
             if(i == parent) continue;
-            if(dis[i] == -1){
-                getcps(i,node,adj,dis,low,ans);
-                low[node] = min(low[node],low[i]);
-                if(low[i] > dis[node]) ans.push_back({i,node});
+            if(disc[i] == -1){
+                dfs(i,node,disc,low,g);
+                low[node] = min(low[node],low[i]); 
+
+                if(low[i] > disc[node]) ans.push_back({node,i});
             }
-            else{
-                low[node] = min(low[node],low[i]);
-            }
+            else low[node] = min(low[node],disc[i]);
         }
     }
+public:
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& c) {
+        vector<int> g[n], disc(n,-1), low(n,-1);
 
-    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
-        vector<int> adj[n];
-        vector<int> dis(n,-1),low(n,-1);
-
-        for(auto i:connections){
-            adj[i[0]].push_back(i[1]);
-            adj[i[1]].push_back(i[0]);
+        for(auto i:c){
+            g[i[0]].push_back(i[1]);
+            g[i[1]].push_back(i[0]);
         }
 
-        vector<vector<int>> ans;
-        getcps(0,-1,adj,dis,low,ans);
-
+        dfs(1,-1,disc,low,g);
         return ans;
     }
 };
