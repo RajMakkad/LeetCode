@@ -3,11 +3,6 @@ class Solution {
     vector<int> avgNode(TreeNode *node){
         if(!node) return {0,0};
         
-        if(!node->left and !node->right){
-            ans++;
-            return {node->val,1};
-        }
-        
         auto l = avgNode(node->left);
         auto r = avgNode(node->right);
         
