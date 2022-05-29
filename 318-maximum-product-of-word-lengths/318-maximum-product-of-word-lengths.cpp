@@ -2,26 +2,17 @@ class Solution {
 public:
     int maxProduct(vector<string>& w) {
         int n = w.size();
-        vector<vector<int>> dp(n,vector<int>(26,0));
-        for(int i = 0;i<n;i++){
-            for(int j = 0;j<w[i].size();j++){
-                int c = w[i][j] - 'a';
-                dp[i][c]++;
-            }
-        }
-
         int ans = 0;
-        for(int i = 0;i<n;i++){
-            for(int j = i + 1;j<n;j++){
-                bool pass = true;
-                for(int k = 0;k<26;k++){
-                    if(dp[i][k] > 0 and dp[j][k] > 0){
-                        pass = false;
-                        break;
-                    }
-                }
+        vector<int> mask(n,0);
 
-                if(pass) ans = max(ans,(int)(w[i].size() * w[j].size()));
+        for(int i = 0;i<n;i++){
+            for(auto j:w[i]){
+                int x = j - 'a';
+                mask[i] |= (1<<x);
+            }
+
+            for(int j = 0;j<i;j++){
+                if((mask[i] & mask[j]) == 0) ans = max(ans,(int)w[i].size() * (int)w[j].size());
             }
         }
 
