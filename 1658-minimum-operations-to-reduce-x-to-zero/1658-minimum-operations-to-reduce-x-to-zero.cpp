@@ -1,30 +1,27 @@
 class Solution {
 public:
     int minOperations(vector<int>& nums, int x) {
-        map<int,int> mp;
-        mp[0] = 0;
-
         int n = nums.size();
-        int sum = 0;
-        for(int i = n - 1;i>=0;i--){
-            sum += nums[i];
-            mp[sum] = (n - i);
-        }
-
-        sum = 0;
         int ans = n + 1;
-        if(mp.find(x) != mp.end()) ans = min(ans, mp[x]);
-
+        int sum = 0;
+        int s = 0;
 
         for(int i = 0;i<n;i++){
             sum += nums[i];
-            int need = x - sum;
+        }
+        
+        if(x > sum) return -1;
 
-            if(mp.find(need) != mp.end()){
-                ans = min(ans, i + 1 + mp[need]);
-            }
+        x = sum - x;
+        sum = 0;
+
+        for(int i = 0;i<n;i++){
+            sum += nums[i];
+
+            while(sum > x) sum = sum - nums[s++];
+            if(sum == x) ans = min(ans, s + n - i - 1);
         }
 
-        return ans == n + 1 ? -1 : ans;
+        return ans == n + 1 ? -1: ans;
     }
 };
