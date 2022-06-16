@@ -1,24 +1,24 @@
 class Solution {
 public:
-    string longestPalindrome(string s) {
-        int n = s.length();
-        vector<vector<bool>> p(n,vector<bool>(n,false));
-        pair<int,int> ans;
+    string longestPalindrome(string str) {
+        int n = str.length();
+        vector<vector<int>> dp(n + 1,vector<int>(n + 1, 0));
 
-        for(int len = 0;len<n;len++){
-            for(int i = 0;i+len<n;i++){
-                int e = i + len;
-                if(len==0) p[i][e] = true;
-                else if(len==1 and s[i]==s[e]) p[i][e] = true;
-                else if(s[i]==s[e] and p[i+1][e-1]) p[i][e] = true;
-                
-                if(p[i][e]){
-                    ans.first = i;
-                    ans.second = len + 1;
+        vector<int> ans = {0, 0};
+
+        for(int g = 0; g < n; g++){
+            for(int s = 0;s + g < n;s++){
+                int e = s + g;
+                if(g == 0) dp[s][e] = 1;
+                else if(g == 1 and str[s] == str[e]) dp[s][e] = 1;
+                else if(dp[s + 1][e - 1] and str[s] == str[e]) dp[s][e] = 1;
+
+                if(dp[s][e] and (e - s + 1) > ans[1]){
+                    ans = {s, e - s + 1};
                 }
             }
         }
 
-        return s.substr(ans.first,ans.second);
+        return str.substr(ans[0], ans[1]);
     }
 };
