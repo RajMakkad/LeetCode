@@ -1,34 +1,34 @@
 class Solution {
 public:
-    vector<vector<int>> fourSum(vector<int>& nums, int target){
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        sort(nums.begin(), nums.end());
         int n = nums.size();
-        //set<vector<int>> st;
+        
         vector<vector<int>> ans;
-        sort(nums.begin(),nums.end());
-
-        for(int i = 0;i<n;i++){
-            for(int j = i + 1;j<n;j++){
-                int sum = target - (nums[i] + nums[j]);
+        for(int i = 0;i < n;i++){
+            if(i > 0 and nums[i] == nums[i - 1]) continue;
+            
+            for(int j = i + 1;j < n;j++){
+                if(j > i + 1 and nums[j] == nums[j - 1]) continue;
+                
                 int s = j + 1;
                 int e = n - 1;
-
+                long long t = target - nums[i] * 1LL - nums[j] * 1LL;
+                
                 while(e > s){
-                    if(nums[s] + nums[e] > sum) e--;
-                    else if(nums[s] + nums[e] < sum) s++;
-                    else
-                    {
-                        vector<int> v = {nums[i],nums[j],nums[s++],nums[e]};
-                        while(s < n and nums[s] == nums[s - 1]) s++;
-                        ans.push_back(v);
+                    int sum = nums[s] + nums[e];
+                    if(sum > t) e--;
+                    else if(t > sum) s++;
+                    else {
+                        ans.push_back({nums[i], nums[j], nums[s], nums[e]});
+                        s++;
+                        
+                        while(s < e and nums[s] == nums[s - 1]) s++;
                     }
                 }
-                while(j + 1< n and nums[j + 1] == nums[j]) j++;
             }
-            while(i + 1 < n and nums[i + 1] == nums[i]) i++;
         }
-
-        // vector<vector<int>> ans = {st.begin(),st.end()};
-
+        
         return ans;
     }
 };
