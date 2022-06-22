@@ -7,15 +7,15 @@ public:
                 int d = heights[i] - heights[i - 1];
                 q.push(d);
                 bricks = bricks - d;
-            }
+                
+                while(bricks < 0 and ladders > 0){
+                    bricks += q.top();
+                    ladders--;
+                    q.pop();
+                }
 
-            while(bricks < 0 and ladders > 0){
-                bricks += q.top();
-                ladders--;
-                q.pop();
+                if(bricks < 0) return i - 1;
             }
-
-            if(bricks < 0) return i - 1;
         }
 
         return heights.size() - 1;
