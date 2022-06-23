@@ -25,10 +25,8 @@ class Solution {
                     num = num * 10 + (s[y++] - '0');
                 }
                 if(num > 255) return false;
-                if(num == 0){
-                    if(leadingZero != 1) return false;
-                }
-                else if(leadingZero > 0) return false;
+                if(num == 0 and leadingZero != 1) return false;
+                if(num != 0 and leadingZero > 0) return false;
                 
                 count++;
                 x = y + 1;
