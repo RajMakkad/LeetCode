@@ -10,14 +10,14 @@ using namespace std;
 class Solution{
 public:
    char profession(int level, int pos){
-       if(pos == 1)return 'e';
-       int newPos = (pos + 1)/2;
-       char ch = profession(level - 1,newPos);
-       if (newPos * 2 - 1 == pos) return ch;
-       else{
-           if(ch == 'e') return 'd';
-           return 'e';
+       pos--;
+       int cnt = 0;
+       while(pos){
+           pos &= (pos - 1);
+           cnt++;
        }
+       
+       return cnt % 2 ? 'd' : 'e';
    }
 };
 
