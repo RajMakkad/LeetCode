@@ -93,25 +93,23 @@ struct Node
 
 // Should return true if tree is Sum Tree, else false
 class Solution{
-    long long solve(Node *node, bool &ans){
-        if(!node) return 0;
-        if(!node->left and !node->right) return node->data;
-        
-        long long sum = solve(node->left, ans) + solve(node->right, ans);
-        if(sum != node->data){
-            ans = false;
-            return 0;
-        }
-        
-        return sum + node->data;
-    }
     public:
     bool isSumTree(Node* node){
          if(!node) return true;
-         bool ans = true;
-         solve(node, ans);
+         if(!node->left and !node->right) return true;
          
-         return ans;
+         if(isSumTree(node->left) and isSumTree(node->right)){
+             int sum = 0;
+             sum += node->left ? node->left->data : 0;
+             sum += node->right ? node->right->data : 0;
+             
+             if(sum == node->data){
+                 node->data += sum;
+                 return true;
+             }
+         }
+         
+         return false;
     }
 };
 
