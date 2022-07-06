@@ -112,21 +112,23 @@ int main() {
 
 // } Driver Code Ends
 
-void solve(Node *node, unordered_map<int, vector<int>> &mp, int x){
-    if(!node) return ;
-    mp[x].push_back(node->data);
-    
-    solve(node->left, mp, x + 1);
-    solve(node->right, mp, x);
-}
 vector<int> diagonal(Node *root){
-    unordered_map<int, vector<int>> mp;
     vector<int> ans;
     
-    solve(root, mp, 0);
-    int s = mp.size();
-    for(int i = 0;i < s;i++){
-        for(auto k:mp[i]) ans.push_back(k);
+    queue<Node*> q;
+    q.push(root);
+    
+    while(!q.empty()){
+        Node *node = q.front();
+        q.pop();
+        while(node){
+            if(node->left){
+                q.push(node->left);
+            }
+            
+            ans.push_back(node->data);
+            node = node->right;
+        }
     }
     
     return ans;
