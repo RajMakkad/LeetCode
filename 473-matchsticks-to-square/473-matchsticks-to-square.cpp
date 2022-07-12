@@ -1,36 +1,35 @@
 class Solution {
-    int memoization(int x,int mask,int sum,int k,vector<int> &dp,vector<int> &a){
-        int n = a.size();
-        if(mask == 0) return 1;
-        if(sum == k){
-            return memoization(0,mask,0,k,dp,a);
-        }
-
-        if(sum > k || x >= n) return dp[mask] = 0;
+    bool memoization(int mask, int sub, int &sum, int &n, vector<int> &dp, vector<int> &m){
+        if(mask == 0) return true;
+        if(sub == sum) return dp[mask] = memoization(mask, 0, sum, n, dp, m);
+        
         if(dp[mask] != -1) return dp[mask];
-
-        int optimal = 0;
-
-        for(int i = x;i<n;i++){
-            int p = 1<<i;
-            if((p & mask) and sum + a[i] <= k and memoization(i + 1,mask - p,sum + a[i],k,dp,a)) optimal |= 1;
-            if(memoization(i + 1,mask,sum,k,dp,a)) optimal |= 1;
+        
+        for(int i = 0;i < n;i++){
+            int p = 1 << i;
+            if((mask & p) != 0 and sub + m[i] <= sum and memoization(mask ^ p, sub + m[i], sum, n, dp, m)){
+                return dp[mask] = 1;
+            }
         }
-
-        return dp[mask] = optimal;
+        
+        return dp[mask] = 0;
     }
 public:
-    bool makesquare(vector<int>& a) {
-        int n = a.size();
-        long long sum = 0;
-        for(int i = 0;i<n;i++) sum += a[i];
+    bool makesquare(vector<int>& m) {
+        int n = m.size();
+        int mask = 1<<n;
         
-        if(sum % 4) return false;
+        int sum = 0;
+        for(int i = 0;i < n;i++){
+            sum += m[i];
+        }
+        
+        if(sum % 4 != 0) return false;
+        
         sum /= 4;
         
-        int mask = 1<<n;
-        vector<int> dp(mask,-1);
-
-        return memoization(0,mask - 1,0,sum,dp,a);
+        vector<int> dp(mask, -1);
+        
+        return memoization(mask - 1, 0, sum, n, dp, m);
     }
 };
