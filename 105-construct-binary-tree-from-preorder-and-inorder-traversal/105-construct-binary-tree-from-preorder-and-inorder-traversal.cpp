@@ -7,9 +7,8 @@ class Solution {
             node = new TreeNode(preorder[idx]);
             int mid = mp[preorder[idx]];
             
-            if(idx + 1 < preorder.size()) node->left = solve(idx, l, mid - 1, preorder, inorder);
-            
-            if(idx + 1 < preorder.size()) node->right = solve(idx, mid + 1, h, preorder, inorder);
+            node->left = solve(idx, l, mid - 1, preorder, inorder);
+            node->right = solve(idx, mid + 1, h, preorder, inorder);
         }
         
         return node;
