@@ -21,7 +21,7 @@ public:
         int ans = 1;
         
         for(int i = 1;i<n;i++){
-            if(nums[i]>s.back()) s.push_back(nums[i]);
+            if(nums[i] > s.back()) s.push_back(nums[i]);
             else{
                 auto index = lower_bound(s.begin(),s.end(),nums[i]) - s.begin();
                 s[index] = nums[i];
