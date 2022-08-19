@@ -10,13 +10,11 @@ public:
                     have[i]--, need[i]--;
                     need[i + 1]++;
                 }
-                else {
-                    if(have[i + 1] > 0 and have[i + 2] > 0){
-                        have[i]--, have[i + 1]--, have[i + 2]--;
-                        need[i + 3]++;
-                    }
-                    else return false;
+                else if(have[i + 1] > 0 and have[i + 2] > 0){
+                    have[i]--, have[i + 1]--, have[i + 2]--;
+                    need[i + 3]++;
                 }
+                else return false;
             }
         }
         
