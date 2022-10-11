@@ -1,9 +1,6 @@
 # Decode the string
-## Easy 
-<div class="problem-statement">
-                <p></p><p><span style="font-size:18px">An encoded string (<strong>s</strong>) is given, the task is to decode it. The pattern in which the strings were encoded were as follows<br>
-<strong>original string:</strong>&nbsp;abbbababbbababbbab&nbsp;<br>
-<strong>encoded string :</strong>&nbsp;3[a3[b]1[ab]]</span></p>
+## Medium
+<div class="problems_problem_content__Xm_eO"><p><span style="font-size:18px">An encoded string (<strong>s</strong>) is given, the task is to decode it. The encoding pattern is that the occurance of the string is given at the starting of the string and each string is enclosed by square brackets.</span></p>
 
 <p><strong><span style="font-size:18px">Example 1:</span></strong></p>
 
@@ -27,6 +24,5 @@ You do not need to read input or print annything. Your task is to complete the f
 <strong>Expected Auxiliary Space:</strong> O(|s|)</span></p>
 
 <p><span style="font-size:18px"><strong>Constraints:</strong><br>
-1 ≤ |s| ≤ 30&nbsp;</span></p>
- <p></p>
-            </div>
+1 ≤ |s| ≤ 10<sup>3</sup>&nbsp;</span></p>
+</div>
