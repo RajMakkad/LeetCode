@@ -1,43 +1,30 @@
 class Solution {
 public:
     int largestVariance(string s) {
-        int n = s.length();
-        int ans = 0;
+        unordered_set<char> unique(begin(s), end(s));
         
-        for(char i = 'a';i <= 'z';i++){
-            for(char j = 'a';j <= 'z';j++){
+        int ans = 0;
+        for(auto i:unique){
+            for(auto j:unique){
                 if(i == j) continue;
+                int res = 0, first_b = 0, has_b = 0;
                 
-                int sum = 0, subAns = 0;
-                
-                bool present = false;
-                bool init1 = false, init2 = false;
-                
-                for(int k = 0;k < n;k++){
-                    int cnt = 0;
-                    if(s[k] == i) cnt = 1;
-                    if(s[k] == j) {
-                        present = true;
-                        init1 = true;
-                        cnt = -1;
+                for(auto k:s){
+                    res += (k == i);
+                    if(k == j){
+                        has_b = 1;
+                        if(first_b > 0 and res >= 0){
+                            first_b = 0;
+                        }
+                        else {
+                            res--;
+                            if(res < 0) {
+                                res = -1;
+                                first_b = 1;
+                            }
+                        }
                     }
-                    
-                    sum += cnt;
-                    if(cnt > sum){
-                        sum = cnt;
-                        init1 = false;
-                    }
-                    
-                    if(sum > subAns){
-                        subAns = sum;
-                        init2 = init1;
-                    }
-                    else if(sum == subAns and init1) init2 = true;
-                }
-                
-                if(subAns > ans){
-                    if(init2) ans = subAns;
-                    else if(present) ans = subAns - 1;
+                    ans = max(ans, has_b ? res : 0);
                 }
             }
         }
