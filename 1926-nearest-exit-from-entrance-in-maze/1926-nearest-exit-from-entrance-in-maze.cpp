@@ -1,55 +1,50 @@
+#define pi pair<int, int>
+#define ff first
+#define ss second
+
 class Solution {
-    bool is_valid(int x,int y,int n,int m){
-        return x >= 0 and y >= 0 and x < n and y < m;
+    bool isBorder(int x, int y, int n, int m){
+        return x + 1 == n || x == 0 || y == 0 || y + 1 == m;
     }
-    void exit(int r,int c,vector<vector<char>> &maze,vector<vector<int>> &dist){
+    bool isValid(int x, int y, int n, int m){
+        return x < n and x >= 0 and y >= 0 and y < m;
+    }
+public:
+    int nearestExit(vector<vector<char>>& maze, vector<int>& e) {
         int n = maze.size();
         int m = maze[0].size();
-        int dx[] = {-1,0,1,0};
-        int dy[] = {0,-1,0,1};
-
-        queue<pair<int,int>> q;
-
-        q.push({r,c});
-        maze[r][c] = '+';
-
-        while(q.size()){
-            int x = q.front().first;
-            int y = q.front().second;
+        int dx[] = {0, -1, 0, 1};
+        int dy[] = {-1, 0, 1, 0};
+        int ans = -1;
+        
+        vector<vector<int>> dp(n, vector<int>(m, 1e9));
+        dp[e[0]][e[1]] = 0;
+        maze[e[0]][e[1]] = '+';
+        
+        queue<pi> q;
+        q.push({e[0], e[1]});
+        
+        while(!q.empty()){
+            int x = q.front().ff;
+            int y = q.front().ss;
+            
             q.pop();
-
-            for(int i = 0;i<4;i++){
+            if(isBorder(x, y, n, m) and !(e[0] == x and e[1] == y) and ans == -1){
+                ans = dp[x][y];
+            }
+            
+            for(int i = 0;i < 4;i++){
                 int x1 = x + dx[i];
                 int y1 = y + dy[i];
-
-                if(is_valid(x1,y1,n,m) and maze[x1][y1] == '.' and dist[x1][y1] > dist[x][y] + 1){
-                    q.push({x1,y1});
+                if(isValid(x1, y1, n, m) and maze[x1][y1] == '.'){
+                    dp[x1][y1] = dp[x][y] + 1;
                     maze[x1][y1] = '+';
-                    dist[x1][y1] = dist[x][y] + 1;
+                    
+                    q.push({x1, y1});
                 }
             }
         }
-    }
-public:
-    int nearestExit(vector<vector<char>>& maze, vector<int>& e){
-        int n = maze.size();
-        int m = maze[0].size();
-        vector<vector<int>> dist(n,vector<int>(m,1e9));
-
-        dist[e[0]][e[1]] = 0;
-        exit(e[0],e[1],maze,dist);
-
-        int ans = 1e9;
-        dist[e[0]][e[1]] = 1e9;
-
-        for(int r = 0;r<n;r++){
-            ans = min({ans,dist[r][0],dist[r][m - 1]});
-        }
-
-        for(int c = 0;c<m;c++){
-            ans = min({ans,dist[0][c],dist[n - 1][c]});
-        }
         
-        return ans == 1e9 ? -1 : ans;
+        return ans;
     }
 };
