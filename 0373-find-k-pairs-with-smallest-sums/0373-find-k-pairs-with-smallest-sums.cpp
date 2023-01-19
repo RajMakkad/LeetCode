@@ -7,7 +7,7 @@ public:
         int m = nums2.size();
         
         priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> q;
-        for(int i = 0;i < n;i++){
+        for(int i = 0;i < min(n, k);i++){
             q.push({nums1[i] + nums2[0], i, 0});
         }
         
