@@ -1,9 +1,9 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
 
 
- // } Driver Code Ends
+// } Driver Code Ends
 //User function Template for C++
 
 class Solution {
@@ -11,25 +11,34 @@ class Solution {
     int minRepeats(string a, string b) {
         int n = a.length();
         int m = b.length();
-
-        string s = "";
-        while(b.length() >= s.length()) s += a;
-        s += a;
-
-        int l = s.length();
-        for(int i = 0;i<l;i++){
-            if(s.substr(i,m) == b){
-                int ans = (i + m + n - 1)/n;
-                return ans;
-            }
+        
+        string sub = a;
+        int ans = 1;
+        
+        while(m > sub.length()){
+            sub += a;
+            ans++;
         }
-
+        
+        for(int i = 0;i + m <= sub.length();i++){
+            if(sub.substr(i, m) == b)
+                return ans;
+        }
+        
+        sub += a;
+        ans++;
+        
+        for(int i = 0;i + m <= sub.length();i++){
+            if(sub.substr(i, m) == b)
+                return ans;
+        }
+        
         return -1;
+        
     }
 };
 
-
-// { Driver Code Starts.
+//{ Driver Code Starts.
 
 int main() {
     int t;
@@ -43,4 +52,5 @@ int main() {
         cout << ob.minRepeats(A,B) << endl;
     }
     return 0;
-}  // } Driver Code Ends
+}
+// } Driver Code Ends
