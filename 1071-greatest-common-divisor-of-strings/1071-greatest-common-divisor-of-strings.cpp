@@ -1,10 +1,14 @@
 class Solution {
 public:
-    string gcdOfStrings(string str1, string str2) {
-        int n = str1.length();
-        int m = str2.length();
+    string gcdOfStrings(string s1, string s2) {
+        int n = s1.length();
+        int m = s2.length();
         
-        if(str1 + str2 == str2 + str1) return str1.substr(0,__gcd(n,m));
-        else return "";
+        int g = __gcd(n, m);
+        
+        if(s1 + s2 == s2 + s1)
+            return s1.substr(0, g);
+        
+        return "";
     }
 };
