@@ -16,34 +16,25 @@ class Solution {
             int ans = 0;
             int s = 0;
             int cnt = 0;
+            int idx = 0;
             
             for(int i = 0;i < n;i++){
-                if(arr[i] < 0) cnt++;
+                if(arr[i] < 0) {
+                    if(cnt == 0)
+                        idx = i + 1;
+                    cnt++;
+                }
                 
                 if(arr[i] == 0){
                     s = i + 1;
                     cnt = 0;
+                    idx = 0;
                 }
                 
-                if(cnt % 2 == 0){
+                if(cnt % 2 == 0)
                     ans = max(ans, i - s + 1);
-                }
-            }
-            
-            s = n - 1;
-            cnt = 0;
-            
-            for(int i = n - 1;i >= 0;i--){
-                if(arr[i] < 0) cnt++;
-                
-                if(arr[i] == 0){
-                    s = i - 1;
-                    cnt = 0;
-                }
-                
-                if(cnt % 2 == 0){
-                    ans = max(ans, s - i + 1);
-                }
+                else 
+                    ans = max(ans, i - idx + 1);
             }
             
             return ans;
