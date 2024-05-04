@@ -1,19 +1,15 @@
 var expect = function(val) {
-    const toBe = (num) => {
-        if(val === num)
-            return true
-        throw "Not Equal"
-    }
-    
-    const notToBe = (num) => {
-        if(val !== num)
-            return true
-        throw "Equal"
-    }
-    
     return {
-        toBe, 
-        notToBe
+            toBe: (num) => {
+            if(val === num)
+                return true
+            throw "Not Equal"
+        }, 
+            notToBe: (num) => {
+            if(val !== num)
+                return true
+            throw "Equal"
+        }
     }
 };
 
