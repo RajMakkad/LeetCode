@@ -10,35 +10,14 @@
  * };
  */
 class Solution {
-    bool isLeaf(TreeNode *node){
-        if(!node)
-            return false;
-        if(node->left || node->right)
-            return false;
-        return true;
-    }
-    
-    void helper(TreeNode *node, int target){
-        if(!node)
-            return ;
-        
-        helper(node->left, target);
-        helper(node->right, target);
-        
-        if(isLeaf(node->left) and node->left->val == target){
-            delete node->left;
-            node->left = NULL;
-        }
-        if(isLeaf(node->right) and node->right->val == target){
-            delete node->right;
-            node->right = NULL;
-        }
-    }
 public:
-    TreeNode *removeLeafNodes(TreeNode *root, int target) {
-        helper(root, target);
-        if(isLeaf(root) and root->val == target)
-            root = NULL;
+    TreeNode* removeLeafNodes(TreeNode* root, int target) {
+        if(!root)
+            return nullptr;
+        root->left = removeLeafNodes(root->left, target);
+        root->right = removeLeafNodes(root->right, target);
+        if(!root->left and !root->right and root->val == target)
+            return nullptr;
         return root;
     }
 };
