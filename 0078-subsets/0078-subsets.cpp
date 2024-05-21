@@ -1,5 +1,5 @@
 class Solution {
-    void solve(int idx, vector<int> subset, vector<int> &nums, vector<vector<int>> &ans){
+    void solve(int idx, vector<int> &subset, vector<int> &nums, vector<vector<int>> &ans){
         if(idx >= nums.size()){
             ans.push_back(subset);
         } else {
