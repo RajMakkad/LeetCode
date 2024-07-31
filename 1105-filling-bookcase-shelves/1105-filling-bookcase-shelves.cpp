@@ -6,16 +6,15 @@ public:
         dp[0] = 0;
         dp[1] = books[0][1];
         for(int i = 2; i <= n; i++) {
-            int w = books[i - 1][0];
-            int max_ = books[i - 1][1];
-            for(int j = i - 1; j >= 0; j--) {
+            int w = 0;
+            int h = 0;
+            for(int j = i; j > 0; j--) {
+                w += books[j - 1][0];
+                h = max(h, books[j - 1][1]);
                 if(w > shelfWidth)
                     break;
-                dp[i] = min(dp[i], max_ + dp[j]);
-                if(j > 0){
-                    w += books[j - 1][0];
-                    max_ = max(max_, books[j - 1][1]);
-                }
+                dp[i] = min(dp[i], h + dp[j - 1]);
+                
             }
         }
         return dp[n];
